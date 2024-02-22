@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  one-time-secret:
+    build:
+     context: .
+     dockerfile: spec/Dockerfile
+    container_name: one-time-secret
+    restart: always
+    depends_on:
+      - postgresql
+    volumes:
+      - type: bind
+        source: ./src
+        target: /opt/one-time-secret
+    ports:
+      - "5000:5000"
+  postgresql:
+    image: postgres:14.3
+    container_name: postgresql
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+    - type: bind
+      source: ./data/postgresql/data
+      target: /var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: secret_db
+      POSTGRES_USER: secret_db
+      POSTGRES_PASSWORD: 123

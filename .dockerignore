@@ -1,0 +1,4 @@
+.gitignore
+.dockerignore
+spec/
+docker-compose.yml
