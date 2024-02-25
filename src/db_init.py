@@ -1,9 +1,9 @@
-from config import Config
+from config import config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-DB_URL = f"postgresql://{Config.POSTGRES_USER}:{Config.POSTGRES_PASSWORD}@postgresql/{Config.POSTGRES_DB}"
+DB_URL = f"postgresql://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@postgresql/{config.POSTGRES_DB}"
 
 
 class ApplicationBase(object):
