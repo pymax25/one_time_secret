@@ -9,13 +9,14 @@ from daos import SecretDAO
 from db_init import DB_URL, ApplicationBase
 from exceptions import SecretNotFound
 from services import CreateSecretService, GetSecretService
+from utils import is_valid_uuid
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-base = ApplicationBase()
-db = base.Session()
+
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger('secret-logger')
+
 request_count = {}
 limit = config.REQUESTS_PER_MINUTE_LIMIT
 
@@ -38,12 +39,17 @@ def limit_requests():
 
 @app.route("/secret", methods=["POST"])
 def create_secret():
+    if not request.json:
+        return jsonify({'error': 'Bad Request - data is not JSON'}), 400
     secret = request.json.get("secret")
     if not secret:
         return jsonify({'error': 'Invalid data: "secret" is missing'}), 400
+    base = ApplicationBase()
+    db = base.Session()
     secret_dao = SecretDAO(db=db)
     create_secret_service = CreateSecretService(
-        secret_dao=secret_dao
+        secret_dao=secret_dao,
+        logger=logger,
     )
     try:
         secret_id = create_secret_service.execute(secret=secret)
@@ -55,9 +61,14 @@ def create_secret():
 
 @app.route("/secret/<secret_id>", methods=["POST"])
 def get_secret(secret_id):
+    if not is_valid_uuid(secret_id):
+        return jsonify({"error": "Invalid UUID format in secret_id"}), 400
+    base = ApplicationBase()
+    db = base.Session()
     secret_dao = SecretDAO(db=db)
     get_secret_service = GetSecretService(
-        secret_dao=secret_dao
+        secret_dao=secret_dao,
+        logger=logger,
     )
     try:
         encoded_secret = get_secret_service.execute(secret_id=secret_id)
