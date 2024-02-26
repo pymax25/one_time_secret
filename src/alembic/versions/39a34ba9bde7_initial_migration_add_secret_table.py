@@ -7,9 +7,9 @@ Create Date: 2024-02-25 07:38:18.993895
 """
 from typing import Sequence, Union
 
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = '39a34ba9bde7'
@@ -24,7 +24,6 @@ def upgrade() -> None:
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('token', sa.String(), nullable=True),
     sa.Column('salt', sa.String(), nullable=True),
-    sa.Column('is_used', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
