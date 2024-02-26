@@ -12,6 +12,10 @@ services:
       - type: bind
         source: ./src
         target: /opt/one-time-secret
+    environment:
+      POSTGRES_DB: secret_db
+      POSTGRES_USER: secret_db
+      POSTGRES_PASSWORD: 123
     ports:
       - "5000:5000"
   postgresql:
@@ -24,7 +28,3 @@ services:
     - type: bind
       source: ./data/postgresql/data
       target: /var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: secret_db
-      POSTGRES_USER: secret_db
-      POSTGRES_PASSWORD: 123
