@@ -25,5 +25,5 @@ def decrypt_secret(key: str, token: str) -> str:
     key = base64.b64decode(key.encode())
     f = Fernet(key=key)
     token = base64.b64decode(token.encode())
-    secret_str = f.decrypt(token)
-    return secret_str
+    secret_bytes = f.decrypt(token)
+    return str(secret_bytes, encoding="UTF-8")

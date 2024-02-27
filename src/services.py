@@ -25,4 +25,4 @@ class GetSecretService:
         self._logger.info(f"Trying to get secret by id {secret_id}")
         secret = self._secret_dao.get_secret_by_id(id=secret_id)
         self._logger.info(f"Secret with id {secret_id} found")
-        return str(secret, encoding='UTF-8')
+        return secret

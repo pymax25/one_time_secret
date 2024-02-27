@@ -12,10 +12,10 @@ from services import CreateSecretService, GetSecretService
 from utils import is_valid_uuid
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+app.config["SQLALCHEMY_DATABASE_URI"] = DB_URL
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-logger = logging.getLogger('secret-logger')
+logger = logging.getLogger("secret-logger")
 
 request_count = {}
 limit = config.REQUESTS_PER_MINUTE_LIMIT
@@ -40,10 +40,10 @@ def limit_requests():
 @app.route("/secret", methods=["POST"])
 def create_secret():
     if not request.json:
-        return jsonify({'error': 'Bad Request - data is not JSON'}), 400
+        return jsonify({"error": "Bad Request - data is not JSON"}), 400
     secret = request.json.get("secret")
     if not secret:
-        return jsonify({'error': 'Invalid data: "secret" is missing'}), 400
+        return jsonify({"error": "Invalid data: 'secret' is missing"}), 400
     base = ApplicationBase()
     db = base.Session()
     secret_dao = SecretDAO(db=db)
@@ -56,7 +56,7 @@ def create_secret():
         return {"secret_id": secret_id}
     except Exception as e:
         logger.error(e)
-        return jsonify({'error': 'Internal server error'}), 502
+        return jsonify({"error": "Internal server error"}), 502
 
 
 @app.route("/secret/<secret_id>", methods=["POST"])
@@ -78,4 +78,4 @@ def get_secret(secret_id):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host="0.0.0.0", debug=True)
