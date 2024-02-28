@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  one-time-secret-test:
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
+    container_name: one-time-secret-test
+    volumes:
+      - type: bind
+        source: ./src
+        target: /opt/one-time-secret
