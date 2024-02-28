@@ -8,5 +8,5 @@ DB_URL = f"postgresql://{config.POSTGRES_USER}:{config.POSTGRES_PASSWORD}@postgr
 
 class ApplicationBase(object):
     def __init__(self):
-        self.engine = create_engine(DB_URL, echo=True, future=True)
+        self.engine = create_engine(DB_URL, echo=config.DB_LOGS, future=True)
         self.Session = sessionmaker(bind=self.engine, expire_on_commit=False)

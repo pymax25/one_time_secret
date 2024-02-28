@@ -13,10 +13,12 @@ services:
         source: ./src
         target: /opt/one-time-secret
     environment:
+      APP_HOST:
       POSTGRES_DB:
       POSTGRES_USER:
       POSTGRES_PASSWORD:
       REQUESTS_PER_MINUTE_LIMIT:
+      DB_LOGS:
     ports:
       - "5000:5000"
   postgresql:
