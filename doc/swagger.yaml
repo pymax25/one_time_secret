@@ -1,0 +1,119 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "One Time Secret API"
+tags:
+ - name: Secrets
+paths:
+  /secret:
+    post:
+      tags:
+          - Secrets
+      summary: "Create a new secret"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Secret object to be created"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              secret:
+                type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            properties:
+              secret_id:
+                type: "string"
+                format: uuid
+        400:
+          description: "Invalid data error"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Invalid data: 'secret' must be a string"
+        406:
+          description: "Content type must be application/json"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Content type must be application/json"
+        429:
+          description: "User exceeded request limit per minute."
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Amount of requests exceeded 100 per 1 minute"
+        502:
+          description: "Internal server error"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"
+
+  /secret/{secret_id}:
+    post:
+      tags:
+        - Secrets
+      summary: "Get a secret by ID"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "secret_id"
+          description: "ID of the secret to retrieve"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties:
+              your_secret:
+                type: "string"
+        400:
+          description: "Invalid UUID format in secret_id"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Invalid UUID format in secret_id"
+        404:
+          description: "Secret with specified ID not found"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Secret with id {secret_id} not found"
+        429:
+          description: "User exceeded request limit per minute."
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Amount of requests exceeded 100 per 1 minute"
+        502:
+          description: "Internal server error"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"
