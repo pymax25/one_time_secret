@@ -2,7 +2,7 @@
 
 The configuration for the `One time secret` service is managed through environment variables. Here are the available configuration options:
 
-- `APP_HOST`: The host of the flask app. Default is local development server string empty string "0.0.0.0".
+- `APP_HOST`: The host of the flask app. Default is local development server string "0.0.0.0".
 - `POSTGRES_USER`: The name of the PGSQL user. Required to be filled out to set up a custom database and its further usage. Default is an empty string.
 - `POSTGRES_PASSWORD`: Password for PGSQL connection to a database. Required to be filled out to set up a custom database and its further usage. Default is an empty string.
 - `POSTGRES_DB`: The name of the PGSQL database. Required to be filled out to set up a custom database and its further usage. Default is an empty string.
